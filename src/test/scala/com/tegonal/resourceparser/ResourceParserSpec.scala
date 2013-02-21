@@ -29,7 +29,17 @@ class ResourceParserSpec extends Specification {
 
     "succeed with multi lines" in {
       resourceParser.parse("""items=Items
-                             |items.details.title==This is the detail title""").successful === true
+                             |items.details.title=This is the detail title
+                             |
+                             |users=Users
+                             |users.details.title=User Details""".stripMargin).get ===
+        ResourceBundle(
+          Property(Path(PathElement("items") :: Nil), PropertyValue("Items")) ::
+            Property(Path(PathElement("items") :: PathElement("details") :: PathElement("title") :: Nil), PropertyValue("This is the detail title")) ::
+            Property(Path(PathElement("users") :: Nil), PropertyValue("Users")) ::
+            Property(Path(PathElement("users") :: PathElement("details") :: PathElement("title") :: Nil), PropertyValue("User Details")) ::
+            Nil)
+
     }
 
   }

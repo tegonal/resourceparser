@@ -1,19 +1,21 @@
 package com.tegonal.resourceparser
 
-import scala.util.parsing.combinator.RegexParsers
+import scala.util.parsing.combinator._
 
-class ResourceParser extends RegexParsers {
+class ResourceParser extends JavaTokenParsers {
+
+  override def skipWhitespace = false
 
   /**
-   * Convinient entry method
+   * Convenient entry method
    */
-  def parse(input: String) = parseAll(resourceBundle, input)
+  def parse(input: String): ParseResult[ResourceBundle] = parseAll(resourceBundle, input)
 
   /**
    * The top level entry point
    */
   def resourceBundle: Parser[ResourceBundle] =
-    rep(property) ^^ (x => ResourceBundle(x))
+    repsep(property, whiteSpace) ^^ (x => ResourceBundle(x))
 
   /**
    * Property of the form path=value
@@ -27,9 +29,15 @@ class ResourceParser extends RegexParsers {
   def path: Parser[Path] =
     pathElement ~ rep("." ~> pathElement) ^^ { case lhs ~ rhs => Path(lhs :: rhs) }
 
+  /**
+   * Path elements must consist of word characters
+   */
   def pathElement: Parser[PathElement] =
-    """(\w*)""".r ^^ (x => PathElement(x))
+    """(\w+)""".r ^^ (x => PathElement(x))
 
+  /**
+   * Every character is allowed except new lines
+   */
   def value: Parser[PropertyValue] =
-    """(.*)""".r ^^ (x => PropertyValue(x))
+    """([^\n\r]+)""".r ^^ (x => PropertyValue(x))
 }
