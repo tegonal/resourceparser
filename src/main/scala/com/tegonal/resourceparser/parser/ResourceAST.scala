@@ -1,11 +1,13 @@
 package com.tegonal.resourceparser.parser
 
-case class ResourceBundle(val properties: Seq[Property])
+trait ResourceComponent
 
-case class Path(val pathElements: Seq[PathElement])
+case class ResourceBundle(val properties: Seq[Property]) extends ResourceComponent
 
-case class PathElement(val name: String)
+case class Path(val pathElements: Seq[PathElement]) extends ResourceComponent
 
-case class PropertyValue(val value: String)
+case class PathElement(val name: String) extends ResourceComponent
 
-case class Property(val path: Path, val value: PropertyValue)
+case class PropertyValue(val value: String) extends ResourceComponent
+
+case class Property(val path: Path, val value: PropertyValue) extends ResourceComponent

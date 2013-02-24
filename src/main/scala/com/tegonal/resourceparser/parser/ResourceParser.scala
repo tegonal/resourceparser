@@ -41,3 +41,14 @@ class ResourceParser extends JavaTokenParsers {
   def value: Parser[PropertyValue] =
     """([^\n\r]+)""".r ^^ (x => PropertyValue(x))
 }
+
+object ResourceParser {
+
+  /**
+   * @param input multi-line string of the resource file
+   * @return the resulting AST if the parsing was successful, else None.
+   */
+  def parse(input: String): Option[ResourceBundle] =
+    (new ResourceParser).parse(input).map { Some(_) }.getOrElse(None)
+
+}
