@@ -1,4 +1,4 @@
-package com.tegonal.resourceparser
+package com.tegonal.resourceparser.parser
 
 import scala.util.parsing.combinator._
 

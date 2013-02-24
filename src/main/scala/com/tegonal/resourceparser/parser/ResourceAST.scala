@@ -1,4 +1,4 @@
-package com.tegonal.resourceparser
+package com.tegonal.resourceparser.parser
 
 case class ResourceBundle(val properties: Seq[Property])
 

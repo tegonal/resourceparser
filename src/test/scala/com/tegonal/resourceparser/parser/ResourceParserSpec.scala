@@ -1,4 +1,4 @@
-package com.tegonal.resourceparser
+package com.tegonal.resourceparser.parser
 
 import org.specs2.mutable._
 
