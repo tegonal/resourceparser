@@ -9,13 +9,14 @@ class ResourceBundleTree {
 
   def create(resourceComponent: ResourceComponent): ResourceNode = {
     resourceComponent match {
-      case ResourceBundle(properties) => {
+      case ResourceBundle(elements) => {
         resources.put(Path(Nil), ResourceNodeBuffer(Nil, ListBuffer.empty))
 
-        properties.map(createProperty(_))
+        // ignoring comments so far
+        elements.map { case e: Property => e }.map(createProperty(_))
       }
     }
-
+    
     resources(Path(Nil)).toResourceNode
   }
 

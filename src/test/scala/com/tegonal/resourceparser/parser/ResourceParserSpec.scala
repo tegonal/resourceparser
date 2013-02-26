@@ -42,6 +42,10 @@ class ResourceParserSpec extends Specification {
 
     }
 
+    "succeed with comments in file" in {
+      resourceParser.parse("#Auftrag\nthing=Title").get === ResourceBundle(Comment("Auftrag") :: Property(Path(PathElement("thing") :: Nil), PropertyValue("Title")) :: Nil)
+    }
+
   }
 
 }

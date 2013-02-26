@@ -15,7 +15,13 @@ class ResourceParser extends JavaTokenParsers {
    * The top level entry point
    */
   def resourceBundle: Parser[ResourceBundle] =
-    repsep(property, whiteSpace) ^^ (x => ResourceBundle(x))
+    repsep(property | comment, whiteSpace) ^^ (x => ResourceBundle(x))
+
+  /**
+   * Comment of the form #comment text
+   */
+  def comment: Parser[Comment] =
+    "#" ~> """([^\n\r]+)""".r ^^ { case text => Comment(text) }
 
   /**
    * Property of the form path=value
