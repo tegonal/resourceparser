@@ -13,7 +13,7 @@ class ResourceBundleTree {
         resources.put(Path(Nil), ResourceNodeBuffer(Nil, ListBuffer.empty))
 
         // ignoring comments so far
-        elements.map { case e: Property => e }.map(createProperty(_))
+        elements.collect { case e: Property => e }.map(createProperty(_))
       }
     }
     

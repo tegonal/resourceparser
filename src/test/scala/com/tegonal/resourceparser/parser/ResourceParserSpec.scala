@@ -3,7 +3,7 @@ package com.tegonal.resourceparser.parser
 import org.specs2.mutable._
 
 class ResourceParserSpec extends Specification {
-
+  
   val resourceParser = new ResourceParser
 
   "Resource file parser" should {

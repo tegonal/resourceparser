@@ -45,7 +45,7 @@ class ResourceParser extends JavaTokenParsers {
    * Every character is allowed except new lines
    */
   def value: Parser[PropertyValue] =
-    """([^\n\r]+)""".r ^^ (x => PropertyValue(x))
+    """([^\n\r]*)""".r ^^ (x => PropertyValue(x))
 }
 
 object ResourceParser {
