@@ -33,7 +33,9 @@ object ResourceToScalaGenerator {
        |${children.map(generate).mkString}""".stripMargin
   }
 
-  val open = s"""object ResourceBundleImplicits {
+  val open = s"""package conf
+                |
+                |object messages {
                 |
                 |/**
                 | * Definitions

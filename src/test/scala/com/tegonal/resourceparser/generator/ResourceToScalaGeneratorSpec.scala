@@ -9,7 +9,9 @@ class ResourceToScalaGeneratorSpec extends Specification {
                        |orders.list.title=Orders
                        |orders.details.title=Order""".stripMargin
 
-  val expected = """object ResourceBundleImplicits {
+  val expected = """package conf
+                   |
+                   |object messages {
                    |
                    |/**
                    | * Definitions
