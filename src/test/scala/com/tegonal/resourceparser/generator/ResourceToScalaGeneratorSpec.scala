@@ -12,6 +12,8 @@ class ResourceToScalaGeneratorSpec extends Specification {
                        |orders.details.title=Order
                        |""".stripMargin
 
+  val keywordsResourceFile = """type=Type"""
+
   val expected = """package com.tegonal.resourceparser
                    |
                    |object ResourceBundleImplicits {
@@ -87,10 +89,47 @@ class ResourceToScalaGeneratorSpec extends Specification {
                    |}
                    |}""".stripMargin
 
+  val keywordsExpected = """package com.tegonal.resourceparser
+                           |
+                           |object ResourceBundleImplicits {
+                           |
+                           |/**
+                           | * Definitions
+                           | */
+                           |abstract class PathElement(val identifier: String)
+                           |
+                           |trait ResourcePath {
+                           |  def pathElements: Seq[PathElement]
+                           |
+                           |  def resourceString = pathElements.map(_.identifier).mkString(".")
+                           |}
+                           |
+                           |/**
+                           | * implicit conversion from resource path to string
+                           | */
+                           |implicit def resourcePath2String(resourcePath: ResourcePath): String =
+                           |  resourcePath.resourceString
+                           |
+                           |case object Type extends PathElement("type") with ResourcePath {
+                           |  def pathElements = Type :: Nil
+                           |}
+                           |
+                           |def `type` = Type
+                           |
+                           |}""".stripMargin
+
   "The generator" should {
     "generate Scala source code" in {
       val result = ResourceToScalaGenerator.generateSource(resourceFile).get
       result.replaceAll("""[\n|\s]""", "") === expected.replaceAll("""[\n|\s]""", "")
+    }
+
+    "generate Scala keyword safe code" in {
+      val result = ResourceToScalaGenerator.generateSource(keywordsResourceFile).get
+      println(result)
+      println(keywordsExpected)
+      result.replaceAll("""[\n|\s]""", "") === keywordsExpected.replaceAll("""[\n|\s]""", "")
+
     }
   }
 }

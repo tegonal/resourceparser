@@ -29,11 +29,11 @@ object ResourceToScalaGenerator {
   def createNodeCode(path: Seq[String], children: List[ResourceNode], isProperty: Boolean) = {
     s"""case object ${path.map { _.capitalize }.mkString} extends PathElement("${path.last}")${if (isProperty) " with ResourcePath" else ""} {
        |  ${if (isProperty) "def pathElements = " + path.zipWithIndex.map { case (p, i) => (0 to i).toList.map(path(_).capitalize).mkString }.mkString("::") + " :: Nil" else ""}
-       |  ${children.map { c => "def " + c.path.last + " = " + c.path.map { _.capitalize }.mkString }.mkString("\n\n  ")}
+       |  ${children.map { c => "def " + escapeReservedWord(c.path.last) + " = " + c.path.map { _.capitalize }.mkString }.mkString("\n\n  ")}
        |}
        |${
       path match {
-        case p :: Nil => "\ndef " + p + " = " + p.capitalize
+        case p :: Nil => "\ndef " + escapeReservedWord(p) + " = " + p.capitalize
         case _ => ""
       }
     }
@@ -65,4 +65,61 @@ object ResourceToScalaGenerator {
                 |""".stripMargin
 
   val close = "}"
+
+  private def escapeReservedWord(word: String) =
+    if (reservedWords.contains(word)) s"`$word`" else word
+
+  private val reservedWords = Set(
+    "abstract",
+    "case",
+    "catch",
+    "class",
+    "def",
+    "do",
+    "else",
+    "extends",
+    "false",
+    "final",
+    "finally",
+    "for",
+    "forSome",
+    "if",
+    "implicit",
+    "import",
+    "lazy",
+    "match",
+    "new",
+    "null",
+    "object",
+    "override",
+    "package",
+    "private",
+    "protected",
+    "requires",
+    "return",
+    "sealed",
+    "super",
+    "this",
+    "throw",
+    "trait",
+    "try",
+    "true",
+    "type",
+    "val",
+    "var",
+    "while",
+    "with",
+    "yield",
+    "_",
+    ":",
+    "=",
+    "=>",
+    "<-",
+    "<:",
+    "<%",
+    ">:",
+    "#",
+    "@",
+    "⇒",
+    "←")
 }
