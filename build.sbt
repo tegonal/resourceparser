@@ -2,7 +2,7 @@ name := "resourceparser"
 
 organization := "com.tegonal"
 
-version := "1.0.0-SNAPSHOT"
+version := "1.0.0"
 
 resolvers ++= Seq("snapshots", "releases").map(Resolver.sonatypeRepo)
 
