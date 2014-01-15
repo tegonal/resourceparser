@@ -4,16 +4,16 @@ import com.tegonal.resourceparser.parser._
 
 object ResourceToScalaGenerator {
 
-  def generateSource(input: String): Option[String] = {
+  def generateSource(input: String, packageName: String = "com.tegonal.resourceparser", objectName: String = "ResourceBundleImplicits"): Option[String] = {
     ResourceParser.parse(input) map { parsed =>
-      generate(ResourceBundleTree.create(parsed))
+      s"""${open(packageName, objectName)}
+         |${generate(ResourceBundleTree.create(parsed))}
+         |${close}""".stripMargin
     }
   }
 
   def generate(resourceNode: ResourceNode): String = resourceNode match {
-    case ResourceNode(Nil, children, false) => s"""${open}
-                                                  |${children.map(generate).mkString("\n")}
-                                                  |${close}""".stripMargin
+    case ResourceNode(Nil, children, false) => children.map(generate).mkString("\n")
 
     case ResourceNode(path, children, isProperty) => createNodeCode(path, children, isProperty)
   }
@@ -33,9 +33,9 @@ object ResourceToScalaGenerator {
        |${children.map(generate).mkString}""".stripMargin
   }
 
-  val open = s"""package conf
+  def open(packageName: String, objectName: String) = s"""package $packageName
                 |
-                |object messages {
+                |object $objectName {
                 |
                 |/**
                 | * Definitions

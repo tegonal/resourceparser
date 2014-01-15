@@ -9,9 +9,9 @@ class ResourceToScalaGeneratorSpec extends Specification {
                        |orders.list.title=Orders
                        |orders.details.title=Order""".stripMargin
 
-  val expected = """package conf
+  val expected = """package com.tegonal.resourceparser
                    |
-                   |object messages {
+                   |object ResourceBundleImplicits {
                    |
                    |/**
                    | * Definitions
@@ -86,7 +86,7 @@ class ResourceToScalaGeneratorSpec extends Specification {
 
   "The generator" should {
     "generate Scala source code" in {
-      val result = ResourceToScalaGenerator.generate(ResourceBundleTree.create(ResourceParser.parse(resourceFile).get))
+      val result = ResourceToScalaGenerator.generateSource(resourceFile).get
       result.replaceAll("""[\n|\s]""", "") === expected.replaceAll("""[\n|\s]""", "")
     }
   }
