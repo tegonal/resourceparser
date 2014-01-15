@@ -4,6 +4,14 @@ import com.tegonal.resourceparser.parser._
 
 object ResourceToScalaGenerator {
 
+  /**
+   * Generate Scala source code from a properties file to enable compile safe keys.
+   *
+   * @param input the input string of a given resource property file
+   * @param packageName desired package name of the generated Scala source file, defaults to `com.tegonal.resourceparser`
+   * @param objectName desired object name of the generated Scala `object` holding the implicits.
+   * @return generated Scala code.
+   */
   def generateSource(input: String, packageName: String = "com.tegonal.resourceparser", objectName: String = "ResourceBundleImplicits"): Option[String] = {
     ResourceParser.parse(input) map { parsed =>
       s"""${open(packageName, objectName)}
