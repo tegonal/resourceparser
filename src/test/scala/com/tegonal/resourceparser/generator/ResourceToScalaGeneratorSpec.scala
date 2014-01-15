@@ -16,6 +16,8 @@ class ResourceToScalaGeneratorSpec extends Specification {
 
   val expected = """package com.tegonal.resourceparser
                    |
+                   |import scala.language.implicitConversions
+                   |
                    |object ResourceBundleImplicits {
                    |
                    |/**
@@ -90,6 +92,8 @@ class ResourceToScalaGeneratorSpec extends Specification {
                    |}""".stripMargin
 
   val keywordsExpected = """package com.tegonal.resourceparser
+                           |
+                           |import scala.language.implicitConversions
                            |
                            |object ResourceBundleImplicits {
                            |

@@ -43,6 +43,8 @@ object ResourceToScalaGenerator {
 
   def open(packageName: String, objectName: String) = s"""package $packageName
                 |
+                |import scala.language.implicitConversions
+                |
                 |object $objectName {
                 |
                 |/**
