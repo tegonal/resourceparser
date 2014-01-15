@@ -9,7 +9,7 @@ class ResourceParser extends JavaTokenParsers {
   /**
    * Convenient entry method
    */
-  def parse(input: String): ParseResult[ResourceBundle] = parseAll(resourceBundle, input)
+  def parse(input: String): ParseResult[ResourceBundle] = parseAll(resourceBundle, input.trim)
 
   /**
    * The top level entry point
