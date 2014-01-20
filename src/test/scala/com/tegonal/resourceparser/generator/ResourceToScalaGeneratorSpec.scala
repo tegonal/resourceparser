@@ -150,10 +150,7 @@ class ResourceToScalaGeneratorSpec extends Specification {
 
     "generate Scala keyword safe code" in {
       val result = ResourceToScalaGenerator.generateSource(keywordsResourceFile).get
-      println(result)
-      println(keywordsExpected)
       result.replaceAll("""[\n|\s]""", "") === keywordsExpected.replaceAll("""[\n|\s]""", "")
-
     }
   }
 }
